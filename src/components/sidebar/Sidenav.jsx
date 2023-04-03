@@ -5,29 +5,64 @@ import {
   MenuItem,
   SubMenu,
   ProSidebar,
+  sidebarClasses,
+  menuClasses,
+  useProSidebar,
 } from "react-pro-sidebar";
 import Link from "next/link";
 import Box from "@mui/material/Box";
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 import Typography from "@mui/material/Typography";
 import Image from "next/image";
-import { styles } from "@/styles/Home.module.css";
+import { ColorModeContext, useMode, tokens } from "../../styles/theme";
+import { IconButton } from "@mui/material";
+import { useState } from "react";
+import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 
-const Item = ({ to, title }) => {
-  return <MenuItem component={<Link href={to} />}>{title}</MenuItem>;
+const Item = ({ to, title, icon, isCollpased, selected, setSelected }) => {
+  const { theme, colorMode } = useMode();
+  console.log(selected);
+  return (
+    <MenuItem
+      component={<Link href={to} />}
+      sx={{
+        display: "flex",
+        justifyContent: "space-between",
+      }}
+      active={selected === title}
+      onClick={() => setSelected(title)}
+    >
+      <Box>{title}</Box>
+    </MenuItem>
+  );
 };
 
 const Sidenav = () => {
+  const { theme } = useMode();
+  const colors = tokens(theme.palette.mode);
+  const { collapseSidebar } = useProSidebar();
+  const [collpased, setCollapsed] = useState(false);
+  const [selected, setSelected] = useState("Home");
   return (
     <Box mb={"32px"}>
       <Box
-        sx={{ display: "flex", justifyContent: "space-between" }}
+        sx={{
+          display: "flex",
+          justifyContent: "space-between",
+        }}
         m="16px 8px 16px 8px"
       >
         <Typography variant="h5" pb={"20px"}>
           Diabetes Tracker
         </Typography>
-        <MenuOutlinedIcon />
+        <IconButton
+          onClick={() => {
+            collapseSidebar();
+            setCollapsed(!collpased);
+          }}
+        >
+          <MenuOutlinedIcon />
+        </IconButton>
       </Box>
       <Box
         display={"flex"}
@@ -43,16 +78,49 @@ const Sidenav = () => {
           src={"../../assets/user.png"}
         />
       </Box>
-      <Sidebar>
-        <Menu>
-          <Item to="/" title="Home" />
-          <Item to="/dashboard" title="Dashboard" />
-          <Item to="/calendar" title="Calendar" />
-          <SubMenu label="Charts">
-            <Item to="/curve" title="BG Curve" />
-          </SubMenu>
-        </Menu>
-      </Sidebar>
+      <Box>
+        <Sidebar rootStyles={{}}>
+          <Menu
+            menuItemStyles={{
+              button: ({ active }) => {
+                return {
+                  backgroundColor: active
+                    ? colors.grey[500]
+                    : colors.primary[500],
+                };
+              },
+            }}
+          >
+            <Item
+              to="/"
+              title="Home"
+              icon={<HomeOutlinedIcon />}
+              selected={selected}
+              setSelected={setSelected}
+            />
+            <Item
+              to="/dashboard"
+              title="Dashboard"
+              selected={selected}
+              setSelected={setSelected}
+            />
+            <Item
+              to="/calendar"
+              title="Calendar"
+              selected={selected}
+              setSelected={setSelected}
+            />
+            <SubMenu label="Charts">
+              <Item
+                to="/curve"
+                title="BG Curve"
+                selected={selected}
+                setSelected={setSelected}
+              />
+            </SubMenu>
+          </Menu>
+        </Sidebar>
+      </Box>
     </Box>
   );
 };
