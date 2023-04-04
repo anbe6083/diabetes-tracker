@@ -5,12 +5,15 @@ import interactionPlugin from "@fullcalendar/interaction"; // needed for dayClic
 
 const Calendar = () => {
   const [events, setEvents] = React.useState([
-    { title: "event 1", date: "2023-04-01" },
-    { title: "event 2", date: "2023-04-02" },
+    { title: "event 1", date: new Date("2023-04-01") },
+    { title: "event 2", date: new Date("2023-04-02") },
   ]);
-  const handleDateClick = () => {
+  const handleDateClick = (arg: any) => {
     // bind with an arrow function
     const title = prompt("Add a new event");
+    if (title) {
+      setEvents([...events, { title, date: arg.dateStr }]);
+    }
   };
   return (
     <FullCalendar
