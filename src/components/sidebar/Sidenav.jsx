@@ -32,7 +32,7 @@ const Item = ({ to, title, icon, isCollpased, selected, setSelected }) => {
       active={selected === title}
       onClick={() => setSelected(title)}
     >
-      <Box>{title}</Box>
+      <Typography>{title}</Typography>
     </MenuItem>
   );
 };
@@ -79,7 +79,12 @@ const Sidenav = () => {
         />
       </Box>
       <Box>
-        <Sidebar rootStyles={{}}>
+        <Sidebar
+          rootStyles={{
+            color: colors.grey[100],
+            backgroundColor: `red`,
+          }}
+        >
           <Menu
             menuItemStyles={{
               button: ({ active }) => {
@@ -87,6 +92,17 @@ const Sidenav = () => {
                   backgroundColor: active
                     ? colors.grey[500]
                     : colors.primary[500],
+                  color: {
+                    light: colors.grey[500],
+                  },
+                };
+              },
+              MenuItem: ({ active }) => {
+                return {
+                  backgroundColor: colors.primary[500],
+                  color: {
+                    light: colors.grey[500],
+                  },
                 };
               },
             }}
