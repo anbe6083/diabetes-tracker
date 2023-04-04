@@ -1,4 +1,3 @@
-import { FaTachometerAlt, FaGem, FaList } from "react-icons/fa";
 import {
   Sidebar,
   Menu,
