@@ -3,6 +3,8 @@ import FullCalendar from "@fullcalendar/react"; // must go before plugins
 import dayGridPlugin from "@fullcalendar/daygrid"; // a plugin!
 import interactionPlugin from "@fullcalendar/interaction"; // needed for dayClick
 import timeGridPlugin from "@fullcalendar/timegrid";
+import listPlugin from "@fullcalendar/list";
+import Box from "@mui/material/Box";
 
 const Calendar = () => {
   const [events, setEvents] = React.useState([
@@ -19,19 +21,21 @@ const Calendar = () => {
     }
   };
   return (
-    <FullCalendar
-      plugins={[dayGridPlugin, interactionPlugin, timeGridPlugin]}
-      dateClick={handleDateClick}
-      initialView="timeGridDay"
-      headerToolbar={{
-        left: "prev,next,today",
-        center: "title",
-        right: "dayGridMonth,timeGridWeek,timeGridDay",
-      }}
-      slotDuration="00:30:00"
-      slotLabelInterval="01:00:00"
-      events={events}
-    />
+    <Box m="24px">
+      <FullCalendar
+        plugins={[dayGridPlugin, interactionPlugin, timeGridPlugin, listPlugin]}
+        dateClick={handleDateClick}
+        initialView="timeGridDay"
+        headerToolbar={{
+          left: "prev,next,today",
+          center: "title",
+          right: "dayGridMonth,timeGridWeek,timeGridDay,listMonth",
+        }}
+        slotDuration="00:30:00"
+        slotLabelInterval="01:00:00"
+        events={events}
+      />
+    </Box>
   );
 };
 
