@@ -88,9 +88,6 @@ const Calendar = () => {
                 />
               </Typography>
             </Box>
-            <Box>
-              <StaticTimePicker defaultValue={dayjs("2022-04-17T15:30")} />
-            </Box>
           </Box>
         </Modal>
       </Box>
