@@ -35,14 +35,19 @@ const Calendar = () => {
     setOpen(true);
   };
 
-  const handleClose = (selected: any) => {
+  const handleSubmit = (selected: any, reason: any) => {
+    if (reason && reason === "backdropClick") {
+      setOpen(false);
+      return;
+    }
+
     setEvents([
       ...events,
       {
         title: "Glucose Reading",
         reading: glucoseValue,
         date,
-        duration: "60",
+        duration: "30",
       },
     ]);
     setOpen(false);
@@ -94,7 +99,7 @@ const Calendar = () => {
         />
         <Modal
           open={open}
-          onClose={handleClose}
+          onClose={handleSubmit}
           aria-labelledby="modal-modal-title"
           aria-describedby="modal-modal-description"
         >
@@ -113,7 +118,7 @@ const Calendar = () => {
                   onChange={(e) => setValue(e.target.value)}
                 />
               </Typography>
-              <Button variant="contained" onClick={handleClose}>
+              <Button variant="contained" onClick={handleSubmit}>
                 Submit
               </Button>
             </Box>
