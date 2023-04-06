@@ -10,30 +10,53 @@ import { StaticTimePicker } from "@mui/x-date-pickers/StaticTimePicker";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import dayjs from "dayjs";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import InputAdornment from "@mui/material/InputAdornment";
 
 const Calendar = () => {
   const [events, setEvents] = useState([
-    { title: "event 1", date: new Date("2023-04-01"), duration: "120" },
-    { title: "event 2", date: new Date("2023-04-02"), duration: "120" },
+    {
+      title: "Glucose Reading",
+      date: new Date("2023-04-01"),
+      duration: "120",
+      reading: "120",
+    },
+    {
+      title: "Glucose Reading",
+      date: new Date("2023-04-02"),
+      duration: "120",
+      reading: "251",
+    },
   ]);
   const [open, setOpen] = useState(false);
+  const [glucoseValue, setValue] = useState("0");
+  const [date, setDate] = useState(new Date());
 
   const handleOpen = () => {
     setOpen(true);
   };
 
-  const handleClose = () => {
+  const handleClose = (selected: any) => {
+    setEvents([
+      ...events,
+      {
+        title: "Glucose Reading",
+        reading: glucoseValue,
+        date,
+        duration: "60",
+      },
+    ]);
     setOpen(false);
+    setDate(new Date());
   };
 
   const handleDateClick = (selected: any) => {
     handleOpen();
     const calendarApi = selected.view.calendar;
     calendarApi.unselect();
-    // const title = prompt("Add a new event");
-    // if (title) {
-    //   setEvents([...events, { title, date: selected.dateStr, duration: "60" }]);
-    // }
+    const reading = glucoseValue;
+
+    const clickedDate = selected.date;
+    setDate(clickedDate);
   };
 
   const style = {
@@ -80,13 +103,19 @@ const Calendar = () => {
               <Typography id="modal-modal-title" variant="h6" component="h2">
                 Glucose
               </Typography>
-              <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+              <Typography id="modal-modal-description" sx={{ mt: 2, mb: 8 }}>
                 <TextField
                   id="outlined-basic"
                   label="mg/dL"
                   variant="outlined"
+                  type="number"
+                  value={glucoseValue}
+                  onChange={(e) => setValue(e.target.value)}
                 />
               </Typography>
+              <Button variant="contained" onClick={handleClose}>
+                Submit
+              </Button>
             </Box>
           </Box>
         </Modal>
