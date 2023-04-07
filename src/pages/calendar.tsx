@@ -11,6 +11,9 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import dayjs from "dayjs";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import InputAdornment from "@mui/material/InputAdornment";
+import Select, { SelectChangeEvent } from "@mui/material/Select";
+import MenuItem from "@mui/material/MenuItem";
+import InputLabel from "@mui/material/InputLabel";
 
 const Calendar = () => {
   const [events, setEvents] = useState([
@@ -30,6 +33,8 @@ const Calendar = () => {
   const [open, setOpen] = useState(false);
   const [glucoseValue, setValue] = useState("0");
   const [date, setDate] = useState(new Date());
+  const [title, setTitle] = useState("Glucose Reading");
+  const [mealDescription, setMealDescription] = useState("");
 
   const handleOpen = () => {
     setOpen(true);
@@ -44,7 +49,7 @@ const Calendar = () => {
     setEvents([
       ...events,
       {
-        title: "Glucose Reading",
+        title,
         reading: glucoseValue,
         date,
         duration: "30",
@@ -58,10 +63,13 @@ const Calendar = () => {
     handleOpen();
     const calendarApi = selected.view.calendar;
     calendarApi.unselect();
-    const reading = glucoseValue;
 
     const clickedDate = selected.date;
     setDate(clickedDate);
+  };
+
+  const handleTitleChange = (e: SelectChangeEvent) => {
+    setTitle(e.target.value as string);
   };
 
   const style = {
@@ -104,20 +112,91 @@ const Calendar = () => {
           aria-describedby="modal-modal-description"
         >
           <Box sx={style}>
-            <Box>
-              <Typography id="modal-modal-title" variant="h6" component="h2">
-                Glucose
-              </Typography>
-              <Typography id="modal-modal-description" sx={{ mt: 2, mb: 8 }}>
-                <TextField
-                  id="outlined-basic"
-                  label="mg/dL"
-                  variant="outlined"
-                  type="number"
-                  value={glucoseValue}
-                  onChange={(e) => setValue(e.target.value)}
-                />
-              </Typography>
+            <Box minWidth={120}>
+              <InputLabel id="title-select-label">Title</InputLabel>
+              <Select
+                labelId="title-select-label"
+                id="title-select"
+                value={title}
+                label="Title"
+                onChange={handleTitleChange}
+              >
+                <MenuItem value="Glucose Reading">Glucose Reading</MenuItem>
+                <MenuItem value="Insulin Injection">Insulin Injection</MenuItem>
+                <MenuItem value="Meal">Meal</MenuItem>
+              </Select>
+              {title === "Glucose Reading" && (
+                <Box>
+                  <Typography
+                    id="modal-modal-title"
+                    variant="h6"
+                    component="h2"
+                  >
+                    Glucose
+                  </Typography>
+                  <Typography
+                    id="modal-modal-description"
+                    sx={{ mt: 2, mb: 8 }}
+                  >
+                    <TextField
+                      id="outlined-basic"
+                      label="mg/dL"
+                      variant="outlined"
+                      type="test"
+                      value={mealDescription}
+                      onChange={(e) => setValue(e.target.value)}
+                    />
+                  </Typography>
+                </Box>
+              )}
+              {title === "Insulin Injection" && (
+                <Box>
+                  <Typography
+                    id="modal-modal-title"
+                    variant="h6"
+                    component="h2"
+                  >
+                    Insulin
+                  </Typography>
+                  <Typography
+                    id="modal-modal-description"
+                    sx={{ mt: 2, mb: 8 }}
+                  >
+                    <TextField
+                      id="outlined-basic"
+                      label="Units"
+                      variant="outlined"
+                      type="number"
+                      value={glucoseValue}
+                      onChange={(e) => setValue(e.target.value)}
+                    />
+                  </Typography>
+                </Box>
+              )}
+              {title === "Meal" && (
+                <Box>
+                  <Typography
+                    id="modal-modal-title"
+                    variant="h6"
+                    component="h2"
+                  >
+                    Meal
+                  </Typography>
+                  <Typography
+                    id="modal-modal-description"
+                    sx={{ mt: 2, mb: 8 }}
+                  >
+                    <TextField
+                      id="outlined-basic"
+                      label="Carbs"
+                      variant="outlined"
+                      type="text"
+                      value={mealDescription}
+                      onChange={(e) => setMealDescription(e.target.value)}
+                    />
+                  </Typography>
+                </Box>
+              )}
               <Button variant="contained" onClick={handleSubmit}>
                 Submit
               </Button>
