@@ -188,7 +188,7 @@ const Calendar = () => {
                   >
                     <TextField
                       id="outlined-basic"
-                      label="Carbs"
+                      label="What did your pet eat?"
                       variant="outlined"
                       type="text"
                       value={mealDescription}
