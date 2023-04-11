@@ -86,8 +86,13 @@ const Calendar = () => {
       setBackground(colors.redAccent[400]);
     }
     if (e.target.value === "Meal") {
-      setBackground(colors.greenAccent[400]);
+      setBackground(colors.greenAccent[900]);
     }
+  };
+
+  const handleEventClick = (e: any) => {
+    const eventObj = e.event;
+    console.log(eventObj);
   };
 
   const style = {
@@ -122,6 +127,9 @@ const Calendar = () => {
           slotDuration="00:30:00"
           slotLabelInterval="01:00:00"
           events={events}
+          eventClick={(e) => {
+            handleEventClick(e);
+          }}
         />
         <Modal
           open={open}
