@@ -26,19 +26,24 @@ const Calendar = () => {
       title: "Glucose Reading",
       date: new Date("2023-04-01"),
       duration: "120",
-      reading: "120",
       backgroundColor: colors.blueAccent[400],
+      insulinValue: "",
+      glucoseValue: "",
+      mealDescription: "Test",
     },
     {
       title: "Glucose Reading",
       date: new Date("2023-04-02"),
       duration: "120",
-      reading: "251",
       backgroundColor: colors.blueAccent[400],
+      insulinValue: "",
+      glucoseValue: "",
+      mealDescription: "Test",
     },
   ]);
   const [open, setOpen] = useState(false);
-  const [glucoseValue, setValue] = useState("0");
+  const [glucoseValue, setGlucoseValue] = useState("0");
+  const [insulinValue, setInsulinValue] = useState("0");
   const [date, setDate] = useState(new Date());
   const [title, setTitle] = useState("Glucose Reading");
   const [mealDescription, setMealDescription] = useState("");
@@ -58,7 +63,9 @@ const Calendar = () => {
       ...events,
       {
         title,
-        reading: glucoseValue,
+        glucoseValue,
+        mealDescription,
+        insulinValue,
         date,
         duration: "30",
         backgroundColor: background,
@@ -157,9 +164,7 @@ const Calendar = () => {
                     id="modal-modal-title"
                     variant="h6"
                     component="h2"
-                  >
-                    Glucose
-                  </Typography>
+                  ></Typography>
                   <Typography
                     id="modal-modal-description"
                     sx={{ mt: 2, mb: 8 }}
@@ -170,7 +175,7 @@ const Calendar = () => {
                       variant="outlined"
                       type="number"
                       value={glucoseValue}
-                      onChange={(e) => setValue(e.target.value)}
+                      onChange={(e) => setGlucoseValue(e.target.value)}
                     />
                   </Typography>
                 </Box>
@@ -181,9 +186,7 @@ const Calendar = () => {
                     id="modal-modal-title"
                     variant="h6"
                     component="h2"
-                  >
-                    Insulin
-                  </Typography>
+                  ></Typography>
                   <Typography
                     id="modal-modal-description"
                     sx={{ mt: 2, mb: 8 }}
@@ -193,8 +196,8 @@ const Calendar = () => {
                       label="Units"
                       variant="outlined"
                       type="number"
-                      value={glucoseValue}
-                      onChange={(e) => setValue(e.target.value)}
+                      value={insulinValue}
+                      onChange={(e) => setInsulinValue(e.target.value)}
                     />
                   </Typography>
                 </Box>
@@ -205,9 +208,7 @@ const Calendar = () => {
                     id="modal-modal-title"
                     variant="h6"
                     component="h2"
-                  >
-                    Meal
-                  </Typography>
+                  ></Typography>
                   <Typography
                     id="modal-modal-description"
                     sx={{ mt: 2, mb: 8 }}
