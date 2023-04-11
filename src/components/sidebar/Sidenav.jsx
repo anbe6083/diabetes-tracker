@@ -20,7 +20,6 @@ import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 
 const Item = ({ to, title, icon, isCollpased, selected, setSelected }) => {
   const { theme, colorMode } = useMode();
-  console.log(selected);
   return (
     <MenuItem
       component={<Link href={to} />}
