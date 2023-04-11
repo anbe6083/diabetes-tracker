@@ -56,6 +56,10 @@ const Calendar = () => {
   const handleSubmit = (selected: any, reason: any) => {
     if (reason && reason === "backdropClick") {
       setOpen(false);
+      setInsulinValue("0");
+      setGlucoseValue("0");
+      setMealDescription("");
+      setTitle("Glucose Reading");
       return;
     }
     selected.event;
@@ -98,7 +102,13 @@ const Calendar = () => {
   };
 
   const handleEventClick = (e: any) => {
+    setOpen(true);
+
     const eventObj = e.event;
+    setInsulinValue(eventObj.extendedProps.insulinValue);
+    setGlucoseValue(eventObj.extendedProps.glucoseValue);
+    setMealDescription(eventObj.extendedProps.mealDescription);
+    setTitle(eventObj.title);
     console.log(eventObj);
   };
 
