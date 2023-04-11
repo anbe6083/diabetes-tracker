@@ -1,11 +1,11 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import FullCalendar from "@fullcalendar/react"; // must go before plugins
 import dayGridPlugin from "@fullcalendar/daygrid"; // a plugin!
 import interactionPlugin from "@fullcalendar/interaction"; // needed for dayClick
 import timeGridPlugin from "@fullcalendar/timegrid";
 import listPlugin from "@fullcalendar/list";
 import Box from "@mui/material/Box";
-import { Modal, TextField, Typography, Button } from "@mui/material";
+import { Modal, TextField, Typography, Button, useTheme } from "@mui/material";
 import { StaticTimePicker } from "@mui/x-date-pickers/StaticTimePicker";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import dayjs from "dayjs";
@@ -14,20 +14,27 @@ import InputAdornment from "@mui/material/InputAdornment";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import InputLabel from "@mui/material/InputLabel";
+import { tokens, ColorModeContext } from "@/styles/theme";
 
 const Calendar = () => {
+  const theme = useTheme();
+  const colors = tokens(theme.palette.mode);
+  const colorMode = useContext(ColorModeContext);
+
   const [events, setEvents] = useState([
     {
       title: "Glucose Reading",
       date: new Date("2023-04-01"),
       duration: "120",
       reading: "120",
+      backgroundColor: colors.blueAccent[400],
     },
     {
       title: "Glucose Reading",
       date: new Date("2023-04-02"),
       duration: "120",
       reading: "251",
+      backgroundColor: colors.blueAccent[400],
     },
   ]);
   const [open, setOpen] = useState(false);
@@ -35,6 +42,7 @@ const Calendar = () => {
   const [date, setDate] = useState(new Date());
   const [title, setTitle] = useState("Glucose Reading");
   const [mealDescription, setMealDescription] = useState("");
+  const [background, setBackground] = useState(colors.blueAccent[400]);
 
   const handleOpen = () => {
     setOpen(true);
@@ -45,7 +53,7 @@ const Calendar = () => {
       setOpen(false);
       return;
     }
-
+    selected.event;
     setEvents([
       ...events,
       {
@@ -53,6 +61,7 @@ const Calendar = () => {
         reading: glucoseValue,
         date,
         duration: "30",
+        backgroundColor: background,
       },
     ]);
     setOpen(false);
@@ -70,6 +79,15 @@ const Calendar = () => {
 
   const handleTitleChange = (e: SelectChangeEvent) => {
     setTitle(e.target.value as string);
+    if (e.target.value === "Glucose Reading") {
+      setBackground(colors.blueAccent[400]);
+    }
+    if (e.target.value === "Insulin Injection") {
+      setBackground(colors.redAccent[400]);
+    }
+    if (e.target.value === "Meal") {
+      setBackground(colors.greenAccent[400]);
+    }
   };
 
   const style = {
@@ -142,8 +160,8 @@ const Calendar = () => {
                       id="outlined-basic"
                       label="mg/dL"
                       variant="outlined"
-                      type="test"
-                      value={mealDescription}
+                      type="number"
+                      value={glucoseValue}
                       onChange={(e) => setValue(e.target.value)}
                     />
                   </Typography>
