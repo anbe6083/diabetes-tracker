@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useState, FC } from "react";
 import FullCalendar from "@fullcalendar/react"; // must go before plugins
 import dayGridPlugin from "@fullcalendar/daygrid"; // a plugin!
 import interactionPlugin from "@fullcalendar/interaction"; // needed for dayClick
@@ -118,7 +118,13 @@ const Calendar = () => {
     p: 4,
   };
 
-  const EditModal = () => {
+  type EditModalProps = {
+    glucoseVal: string;
+    insulinVal: string;
+    mealDesc: string;
+  };
+
+  const EditModal = ({ glucoseVal, insulinVal, mealDesc }: EditModalProps) => {
     return (
       <Modal
         open={open}
@@ -153,7 +159,7 @@ const Calendar = () => {
                     label="mg/dL"
                     variant="outlined"
                     type="number"
-                    value={glucoseValue}
+                    value={glucoseVal}
                     onChange={(e) => setGlucoseValue(e.target.value)}
                   />
                 </Typography>
@@ -172,7 +178,7 @@ const Calendar = () => {
                     label="Units"
                     variant="outlined"
                     type="number"
-                    value={insulinValue}
+                    value={insulinVal}
                     onChange={(e) => setInsulinValue(e.target.value)}
                   />
                 </Typography>
@@ -191,7 +197,7 @@ const Calendar = () => {
                     label="What did your pet eat?"
                     variant="outlined"
                     type="text"
-                    value={mealDescription}
+                    value={mealDesc}
                     onChange={(e) => setMealDescription(e.target.value)}
                   />
                 </Typography>
@@ -230,7 +236,11 @@ const Calendar = () => {
             handleEventClick(e);
           }}
         />
-        <EditModal />
+        <EditModal
+          insulinVal={insulinValue}
+          glucoseVal={glucoseValue}
+          mealDesc={mealDescription}
+        />
       </Box>
     </LocalizationProvider>
   );
