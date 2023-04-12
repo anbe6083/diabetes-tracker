@@ -19,7 +19,6 @@ import { tokens, ColorModeContext } from "@/styles/theme";
 const Calendar = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
-  const colorMode = useContext(ColorModeContext);
 
   const [events, setEvents] = useState([
     {
@@ -63,10 +62,20 @@ const Calendar = () => {
       return;
     }
     selected.event;
+    let newTitle = "";
+    if (title === "Glucose Reading") {
+      newTitle = `${title}: ${glucoseValue} mg/dL`;
+    }
+    if (title === "Insulin Injection") {
+      newTitle = `${title}: ${insulinValue} units`;
+    }
+    if (title === "Meal") {
+      newTitle = `${title}: ${mealDescription}`;
+    }
     setEvents([
       ...events,
       {
-        title,
+        title: newTitle,
         glucoseValue,
         mealDescription,
         insulinValue,
@@ -97,7 +106,7 @@ const Calendar = () => {
       setBackground(colors.redAccent[400]);
     }
     if (e.target.value === "Meal") {
-      setBackground(colors.greenAccent[900]);
+      setBackground(colors.greenAccent[400]);
     }
   };
 
