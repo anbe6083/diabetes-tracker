@@ -19,7 +19,6 @@ import { useState } from "react";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 
 const Item = ({ to, title, icon, isCollpased, selected, setSelected }) => {
-  const { theme, colorMode } = useMode();
   return (
     <MenuItem
       component={<Link href={to} />}
@@ -78,30 +77,26 @@ const Sidenav = () => {
       </Box>
       <Box>
         <Sidebar
-          rootStyles={{
-            color: colors.grey[100],
-            backgroundColor: `red`,
-          }}
+          rootStyles={
+            {
+              // color: colors.grey[500],
+            }
+          }
         >
           <Menu
             menuItemStyles={{
               button: ({ active }) => {
                 return {
-                  backgroundColor: active
-                    ? colors.grey[500]
-                    : colors.primary[500],
-                  color: {
-                    light: colors.grey[500],
-                  },
+                  backgroundColor: active ? colors.grey[500] : undefined,
                 };
               },
               MenuItem: ({ active }) => {
-                return {
-                  backgroundColor: colors.primary[500],
-                  color: {
-                    light: colors.grey[500],
-                  },
-                };
+                // return {
+                //   backgroundColor: colors.primary[500],
+                //   color: {
+                //     light: colors.grey[500],
+                //   },
+                // };
               },
             }}
           >
