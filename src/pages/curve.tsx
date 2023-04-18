@@ -4,7 +4,6 @@ import {
   mockLineDataInsulin as insulinData,
   mockLineDataBloodSugar as sugarData,
 } from "./../data/mockData";
-import Button from "@mui/material/Button";
 import { ColorModeContext, tokens } from "@/styles/theme";
 import { useTheme } from "@mui/material";
 import { useContext } from "react";
@@ -16,11 +15,6 @@ const BGCurve = () => {
 
   return (
     <Box>
-      <Box display={"flex"} flexDirection="row" justifyContent={"flex-end"}>
-        <Button variant="contained" sx={{ marginRight: "32px" }}>
-          Add Reading
-        </Button>
-      </Box>
       <LineChart
         data={insulinData}
         yUnits={"Units"}
