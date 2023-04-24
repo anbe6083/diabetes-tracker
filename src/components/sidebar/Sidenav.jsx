@@ -17,6 +17,8 @@ import { ColorModeContext, useMode, tokens } from "../../styles/theme";
 import { IconButton } from "@mui/material";
 import { useState } from "react";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
+import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
+import AnalyticsIcon from "@mui/icons-material/Analytics";
 
 const Item = ({ to, title, icon, isCollpased, selected, setSelected }) => {
   return (
@@ -67,13 +69,17 @@ const Sidenav = () => {
         alignItems={"center"}
         mb="16px"
       >
-        <img
-          width={100}
-          height={100}
-          style={{ borderRadius: "50%" }}
-          alt="profile-picture"
-          src={"../../assets/user.png"}
-        />
+        {collpased ? (
+          ""
+        ) : (
+          <img
+            width={100}
+            height={100}
+            style={{ borderRadius: "50%" }}
+            alt="profile-picture"
+            src={"../../assets/user.png"}
+          />
+        )}
       </Box>
       <Box>
         <Sidebar
@@ -102,24 +108,24 @@ const Sidenav = () => {
           >
             <Item
               to="/"
-              title="Home"
+              title={collpased ? <HomeOutlinedIcon /> : "Home"}
               icon={<HomeOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
             />
-            <Item
-              to="/dashboard"
-              title="Dashboard"
-              selected={selected}
-              setSelected={setSelected}
-            />
+            {/* <Item
+                to="/dashboard"
+                title="Dashboard"
+                selected={selected}
+                setSelected={setSelected}
+              /> */}
             <Item
               to="/calendar"
-              title="Calendar"
+              title={collpased ? <CalendarMonthIcon /> : "Calendar"}
               selected={selected}
               setSelected={setSelected}
             />
-            <SubMenu label="Charts">
+            <SubMenu label={collpased ? <AnalyticsIcon /> : "Charts"}>
               <Item
                 to="/curve"
                 title="BG Curve"
