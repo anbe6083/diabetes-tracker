@@ -10,7 +10,7 @@ import {
   SelectChangeEvent,
   useTheme,
 } from "@mui/material";
-import { useState } from "react";
+import { SyntheticEvent, useState } from "react";
 import MenuItem from "@mui/material/MenuItem";
 
 const style = {
@@ -51,8 +51,11 @@ export const EditModal = ({
   const [mealDescription, setMealDescription] = useState("");
   const [background, setBackground] = useState(colors.blueAccent[400]);
 
-  const handleSubmit = (selected: any, reason: any) => {
-    if (reason && reason === "backdropClick") {
+  type BackdropClickEvent = React.MouseEvent<HTMLDivElement, MouseEvent>;
+
+  const handleSubmit = (event: BackdropClickEvent) => {
+    console.log(event.nativeEvent);
+    if (event.target === event.currentTarget) {
       setOpen(false);
       setInsulinValue("0");
       setGlucoseValue("0");
@@ -60,7 +63,6 @@ export const EditModal = ({
       setTitle("Glucose Reading");
       return;
     }
-    selected.event;
     let newTitle = "";
     if (title === "Glucose Reading") {
       newTitle = `${title}: ${glucoseValue} mg/dL`;
@@ -181,9 +183,9 @@ export const EditModal = ({
               </Typography>
             </Box>
           )}
-          <Button variant="contained" onClick={handleSubmit}>
-            Submit
-          </Button>
+          <div onClick={handleSubmit}>
+            <Button variant="contained">Submit</Button>
+          </div>
         </Box>
       </Box>
     </Modal>
