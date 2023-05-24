@@ -21,7 +21,6 @@ const LineChart = ({ data, yUnits, colors }) => {
           reverse: false,
         }}
         yFormat=" >-.2f"
-        curve="natural"
         axisTop={null}
         axisRight={null}
         axisBottom={{
