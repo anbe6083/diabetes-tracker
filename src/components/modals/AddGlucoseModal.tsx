@@ -11,6 +11,7 @@ import { useState } from "react";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { Dayjs } from "dayjs";
+import { calculateAverage } from "../../utils/helperFunctions";
 
 const style = {
   position: "absolute" as "absolute",
@@ -29,6 +30,11 @@ type AddGlucoseProps = {
   setOpen: (open: boolean) => void;
   bloodSugarData: any;
   setBloodSugarData: (events: any) => void;
+};
+
+type DataPoint = {
+  x: string;
+  y: number;
 };
 
 export const AddGlucoseModal = ({
@@ -54,9 +60,27 @@ export const AddGlucoseModal = ({
       x: date?.format("YYYY-MM-DD").toString(),
       y: glucoseValue,
     };
+
+    const existingDataPoints = bloodSugarData[0].data.filter(
+      (point: DataPoint) => point.x === newDataPoint.x
+    );
+
     const updatedData = [...bloodSugarData];
-    updatedData[0].data.push(newDataPoint);
-    setBloodSugarData(updatedData);
+
+    if (existingDataPoints.length > 0) {
+      const existingValues = existingDataPoints.map(
+        (point: DataPoint) => point.y
+      );
+      const average = calculateAverage([...existingValues, newDataPoint.y]);
+      existingDataPoints.forEach((point: DataPoint) => {
+        point.y = average;
+      });
+      setBloodSugarData(updatedData);
+    } else {
+      updatedData[0].data.push(newDataPoint);
+      setBloodSugarData(updatedData);
+    }
+
     setGlucoseValue("0");
     setOpen(false);
   };
