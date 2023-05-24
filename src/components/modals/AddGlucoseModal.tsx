@@ -1,18 +1,13 @@
-import { tokens } from "@/styles/theme";
 import dayjs from "dayjs";
 import {
   Modal,
   Box,
-  InputLabel,
-  Select,
   Typography,
   TextField,
   Button,
-  SelectChangeEvent,
   useTheme,
 } from "@mui/material";
-import { SyntheticEvent, useState } from "react";
-import MenuItem from "@mui/material/MenuItem";
+import { useState } from "react";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { Dayjs } from "dayjs";
@@ -42,8 +37,6 @@ export const AddGlucoseModal = ({
   bloodSugarData,
   setBloodSugarData,
 }: AddGlucoseProps) => {
-  const theme = useTheme();
-  const colors = tokens(theme.palette.mode);
   const [date, setDate] = useState<Dayjs | null>(null);
   const [glucoseValue, setGlucoseValue] = useState("0");
 
