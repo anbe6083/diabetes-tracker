@@ -32,10 +32,6 @@ const style = {
 type AddGlucoseProps = {
   open: boolean;
   setOpen: (open: boolean) => void;
-  date: Dayjs | null;
-  setDate: React.Dispatch<React.SetStateAction<Dayjs | null>>;
-  glucoseValue: string;
-  setGlucoseValue: (glucoseValue: string) => void;
   bloodSugarData: any;
   setBloodSugarData: (events: any) => void;
 };
@@ -43,15 +39,13 @@ type AddGlucoseProps = {
 export const AddGlucoseModal = ({
   open,
   setOpen,
-  setDate,
-  glucoseValue,
-  setGlucoseValue,
-  date,
   bloodSugarData,
   setBloodSugarData,
 }: AddGlucoseProps) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+  const [date, setDate] = useState<Dayjs | null>(null);
+  const [glucoseValue, setGlucoseValue] = useState("0");
 
   type BackdropClickEvent = React.MouseEvent<HTMLDivElement, MouseEvent>;
 
