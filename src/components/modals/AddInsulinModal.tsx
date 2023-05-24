@@ -16,6 +16,7 @@ import MenuItem from "@mui/material/MenuItem";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { Dayjs } from "dayjs";
+import { calculateAverage } from "./../../utils/helperFunctions";
 
 const style = {
   position: "absolute" as "absolute",
@@ -33,27 +34,24 @@ type AddInsulinProps = {
   open: boolean;
   setOpen: (open: boolean) => void;
   setInsulinData: (events: any) => void;
-  insulin: number;
-  date: Dayjs | null;
-  setDate: React.Dispatch<React.SetStateAction<Dayjs | null>>;
   insulinData: any;
-  insulinValue: string;
-  setInsulinValue: (insulinValue: string) => void;
+};
+
+type DataPoint = {
+  x: string;
+  y: number;
 };
 
 export const AddInsulinModal = ({
   open,
   setOpen,
-  setDate,
   setInsulinData,
   insulinData,
-  insulinValue,
-  setInsulinValue,
-  date,
 }: AddInsulinProps) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
-
+  const [date, setDate] = useState<Dayjs | null>(null);
+  const [insulinValue, setInsulinValue] = useState("0");
   type BackdropClickEvent = React.MouseEvent<HTMLDivElement, MouseEvent>;
 
   const handleSubmit = (event: BackdropClickEvent) => {
@@ -68,9 +66,25 @@ export const AddInsulinModal = ({
       x: date?.format("YYYY-MM-DD").toString(),
       y: insulinValue,
     };
+
+    const existingDataPoints = insulinData[0].data.filter((dataPoint: any) => {
+      return dataPoint.x === newDataPoint.x;
+    });
+
     const updatedData = [...insulinData];
-    updatedData[0].data.push(newDataPoint);
-    setInsulinData(updatedData);
+    if (existingDataPoints.length > 0) {
+      const existingValues = existingDataPoints.map(
+        (point: DataPoint) => point.y
+      );
+      const average = calculateAverage([...existingValues, newDataPoint.y]);
+      existingDataPoints.forEach((point: DataPoint) => {
+        point.y = average;
+      });
+      setInsulinData(updatedData);
+    } else {
+      updatedData[0].data.push(newDataPoint);
+      setInsulinData(updatedData);
+    }
     setInsulinValue("0");
     setOpen(false);
   };

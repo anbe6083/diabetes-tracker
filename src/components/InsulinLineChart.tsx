@@ -15,8 +15,6 @@ const InsulinLineChart = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const [open, setOpen] = useState(false);
-  const [date, setDate] = useState<Dayjs | null>(null);
-  const [insulinValue, setInsulinValue] = useState("0");
 
   const handleOpen = () => {
     setOpen(true);
@@ -34,13 +32,8 @@ const InsulinLineChart = () => {
       <AddInsulinModal
         setInsulinData={setInsulinData}
         insulinData={insulinData}
-        insulin={100}
         open={open}
-        date={date}
         setOpen={setOpen}
-        setDate={setDate}
-        insulinValue={insulinValue}
-        setInsulinValue={setInsulinValue}
       />
     </Box>
   );
