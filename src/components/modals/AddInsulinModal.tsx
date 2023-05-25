@@ -117,9 +117,9 @@ export const AddInsulinModal = ({
               </Typography>
               <DatePicker onChange={(e) => setDate(e as Dayjs)} />
             </Box>
-            <div onClick={handleSubmit}>
+            <Box onClick={handleSubmit} mt="8px">
               <Button variant="contained">Submit</Button>
-            </div>
+            </Box>
           </Box>
         </Box>
       </Modal>
